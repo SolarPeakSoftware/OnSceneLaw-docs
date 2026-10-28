@@ -102,23 +102,35 @@
   </div>
 
   <script>
-    // 1. Capture URL fragments IMMEDIATELY before Supabase client initializes and strips them
-    const fullUrl = window.location.href;
-    const isRecoveryFlow = fullUrl.includes('type=recovery') || 
-                           fullUrl.includes('access_token=') || 
-                           fullUrl.includes('error_code=');
-
-    if (isRecoveryFlow) {
-      document.getElementById('confirm-view').classList.add('hidden');
-      document.getElementById('reset-view').classList.remove('hidden');
-    }
-
-    // 2. Initialize Supabase
+    // 1. Initialize Supabase
     const SUPABASE_URL = https://bhrsaugshxcjjkrzotii.supabase.co;
     const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnNhdWdzaHhjamprcnpvdGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MjQzOTAsImV4cCI6MjEwODUwMDM5MH0.bXPyyxx_s_PEKjzHVCk4I-Kx4pB-vPMOB-buNf0jlTM;
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 3. Password reset logic
+    // 2. Detect PKCE code or recovery flags in URL
+    const fullUrl = window.location.href;
+    const searchParams = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+
+    const isRecoveryFlow = 
+      fullUrl.includes('type=recovery') || 
+      searchParams.has('code') || 
+      searchParams.has('token_hash') ||
+      hashParams.has('access_token');
+
+    if (isRecoveryFlow) {
+      document.getElementById('confirm-view').classList.add('hidden');
+      document.getElementById('reset-view').classList.remove('hidden');
+
+      // If it's a PKCE code flow, exchange it immediately to establish the recovery session
+      if (searchParams.has('code')) {
+        supabaseClient.auth.exchangeCodeForSession(fullUrl).catch(err => {
+          console.error("Session exchange error:", err);
+        });
+      }
+    }
+
+    // 3. Password reset submission logic
     document.getElementById('reset-btn').addEventListener('click', async () => {
       const newPassword = document.getElementById('new-password').value;
       const statusMsg = document.getElementById('status-msg');
