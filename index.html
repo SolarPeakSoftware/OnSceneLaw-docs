@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account Verified | OnSceneLaw</title>
+  <title>Account | OnSceneLaw</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: #0b0f19;
       color: #f3f4f6;
       display: flex;
@@ -36,23 +37,34 @@
       justify-content: center;
       margin: 0 auto 20px auto;
     }
-    .icon svg {
-      width: 36px;
-      height: 36px;
-      stroke: #10b981;
+    .icon svg { width: 36px; height: 36px; stroke: #10b981; }
+    h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    p { font-size: 14px; color: #9ca3af; line-height: 1.5; margin-bottom: 24px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border-radius: 6px;
+      border: 1px solid #374151;
+      background: #1f2937;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
     }
-    h1 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 10px;
+    input:focus { border-color: #0284c7; }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
     }
-    p {
-      font-size: 14px;
-      color: #9ca3af;
-      line-height: 1.5;
-      margin-bottom: 24px;
-    }
+    button:hover { background: #0369a1; }
+    .hidden { display: none !important; }
     .badge {
       display: inline-block;
       padding: 6px 12px;
@@ -68,9 +80,10 @@
 </head>
 <body>
 
-  <div class="container">
+  <!-- Default View: Confirmation Page -->
+  <div id="confirm-view" class="container">
     <div class="icon">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
       </svg>
     </div>
@@ -78,6 +91,58 @@
     <p>Your <strong>OnSceneLaw</strong> account has been verified. You can close this browser window and open the app to sign in.</p>
     <div class="badge">Ready for Sign In</div>
   </div>
+
+  <!-- Reset Password View -->
+  <div id="reset-view" class="container hidden">
+    <h1>Set New Password</h1>
+    <p>Enter a new password for your <strong>OnSceneLaw</strong> account.</p>
+    <input type="password" id="new-password" placeholder="New Password (min 6 chars)" />
+    <button id="reset-btn">Update Password</button>
+    <p id="status-msg" style="margin-top:15px; font-size:13px;"></p>
+  </div>
+
+  <script>
+    // 1. Capture URL fragments IMMEDIATELY before Supabase client initializes and strips them
+    const fullUrl = window.location.href;
+    const isRecoveryFlow = fullUrl.includes('type=recovery') || 
+                           fullUrl.includes('access_token=') || 
+                           fullUrl.includes('error_code=');
+
+    if (isRecoveryFlow) {
+      document.getElementById('confirm-view').classList.add('hidden');
+      document.getElementById('reset-view').classList.remove('hidden');
+    }
+
+    // 2. Initialize Supabase
+    const SUPABASE_URL = https://bhrsaugshxcjjkrzotii.supabase.co;
+    const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnNhdWdzaHhjamprcnpvdGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MjQzOTAsImV4cCI6MjEwODUwMDM5MH0.bXPyyxx_s_PEKjzHVCk4I-Kx4pB-vPMOB-buNf0jlTM;
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 3. Password reset logic
+    document.getElementById('reset-btn').addEventListener('click', async () => {
+      const newPassword = document.getElementById('new-password').value;
+      const statusMsg = document.getElementById('status-msg');
+
+      if (!newPassword || newPassword.length < 6) {
+        statusMsg.style.color = '#ef4444';
+        statusMsg.innerText = 'Password must be at least 6 characters.';
+        return;
+      }
+
+      statusMsg.style.color = '#9ca3af';
+      statusMsg.innerText = 'Updating password...';
+
+      const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+
+      if (error) {
+        statusMsg.style.color = '#ef4444';
+        statusMsg.innerText = error.message;
+      } else {
+        statusMsg.style.color = '#10b981';
+        statusMsg.innerText = 'Password updated! Open OnSceneLaw and sign in with your new password.';
+      }
+    });
+  </script>
 
 </body>
 </html>
