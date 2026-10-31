@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmed - OnSceneLaw</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-center items-center px-4">
+    <div class="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl text-center">
+        <h1 id="status-title" class="text-2xl font-bold tracking-tight text-white mb-2">Verifying Email...</h1>
+        <p id="message" class="text-sm text-slate-400 mb-6">Please wait while we confirm your account.</p>
+        
+        <a id="action-btn" href="index.html" class="hidden w-full bg-cyan-600 hover:bg-cyan-500 text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-cyan-900/20 inline-block">
+            Continue to App
+        </a>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://bhrsaugshxcjjkrzotii.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnNhdWdzaHhjamprcnpvdGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MjQzOTAsImV4cCI6MjEwODUwMDM5MH0.bXPyyxx_s_PEKjzHVCk4I-Kx4pB-vPMOB-buNf0jlTM';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        const titleEl = document.getElementById('status-title');
+        const messageEl = document.getElementById('message');
+        const actionBtn = document.getElementById('action-btn');
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tokenHash = urlParams.get('token_hash');
+            const type = urlParams.get('type');
+
+            if (!tokenHash || type !== 'signup') {
+                titleEl.textContent = 'Invalid Link';
+                messageEl.textContent = 'This confirmation link is invalid or has already been used.';
+                messageEl.className = 'text-sm text-amber-400 mb-6';
+                actionBtn.classList.remove('hidden');
+                return;
+            }
+
+            const { error } = await _supabase.auth.verifyOtp({
+                token_hash: tokenHash,
+                type: 'signup'
+            });
+
+            if (error) {
+                titleEl.textContent = 'Confirmation Failed';
+                messageEl.textContent = error.message;
+                messageEl.className = 'text-sm text-red-400 mb-6';
+                actionBtn.textContent = 'Return to Home';
+                actionBtn.classList.remove('hidden');
+            } else {
+                titleEl.textContent = 'Email Confirmed!';
+                messageEl.textContent = 'Your account has been successfully verified. You can now log in and access OnSceneLaw.';
+                messageEl.className = 'text-sm text-emerald-400 mb-6';
+                actionBtn.textContent = 'Log In Now';
+                actionBtn.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
