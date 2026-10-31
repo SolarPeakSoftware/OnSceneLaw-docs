@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account | OnSceneLaw</title>
+  <title>Account Management | OnSceneLaw</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,16 +30,17 @@
     .icon {
       width: 64px;
       height: 64px;
-      background-color: rgba(16, 185, 129, 0.1);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 20px auto;
     }
+    .icon.success { background-color: rgba(16, 185, 129, 0.1); }
+    .icon.success svg { stroke: #10b981; }
     .icon.error { background-color: rgba(239, 68, 68, 0.1); }
-    .icon svg { width: 36px; height: 36px; stroke: #10b981; }
     .icon.error svg { stroke: #ef4444; }
+    .icon svg { width: 36px; height: 36px; }
     h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
     p { font-size: 14px; color: #9ca3af; line-height: 1.5; margin-bottom: 24px; }
     input {
@@ -66,6 +67,7 @@
       cursor: pointer;
     }
     button:hover { background: #0369a1; }
+    button:disabled { background: #334155; cursor: not-allowed; }
     .hidden { display: none !important; }
     .badge {
       display: inline-block;
@@ -82,9 +84,9 @@
 </head>
 <body>
 
-  <!-- Default View: Confirmation Page -->
+  <!-- View 1: Default Email Signup Confirmation -->
   <div id="confirm-view" class="container">
-    <div class="icon">
+    <div class="icon success">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
       </svg>
@@ -94,19 +96,7 @@
     <div class="badge">Ready for Sign In</div>
   </div>
 
-  <!-- Error View (Link expired / used) -->
-  <div id="error-view" class="container hidden">
-    <div class="icon error">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </div>
-    <h1>Link Expired or Invalid</h1>
-    <p id="error-desc">This password reset link has already been used or has expired. Please request a new password reset link from inside the OnSceneLaw app.</p>
-    <div class="badge" style="color: #ef4444; background-color: rgba(239, 68, 68, 0.1);">Action Required</div>
-  </div>
-
-  <!-- Reset Password View -->
+  <!-- View 2: Reset Password Form -->
   <div id="reset-view" class="container hidden">
     <h1>Set New Password</h1>
     <p>Enter a new password for your <strong>OnSceneLaw</strong> account.</p>
@@ -115,64 +105,78 @@
     <p id="status-msg" style="margin-top:15px; font-size:13px;"></p>
   </div>
 
+  <!-- View 3: Error / Link Expired -->
+  <div id="error-view" class="container hidden">
+    <div class="icon error">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </div>
+    <h1>Link Expired or Invalid</h1>
+    <p id="error-desc">This password reset link has expired or has already been used. Please request a new password reset link from inside the app.</p>
+    <div class="badge" style="color: #ef4444; background-color: rgba(239, 68, 68, 0.1);">Action Required</div>
+  </div>
+
   <script>
-    const SUPABASE_URL = https://bhrsaugshxcjjkrzotii.supabase.co;
-    const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnNhdWdzaHhjamprcnpvdGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MjQzOTAsImV4cCI6MjEwODUwMDM5MH0.bXPyyxx_s_PEKjzHVCk4I-Kx4pB-vPMOB-buNf0jlTM;
+    // Replace with your actual Supabase project credentials
+    const SUPABASE_URL = 'https://bhrsaugshxcjjkrzotii.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnNhdWdzaHhjamprcnpvdGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MjQzOTAsImV4cCI6MjEwODUwMDM5MH0.bXPyyxx_s_PEKjzHVCk4I-Kx4pB-vPMOB-buNf0jlTM';
+
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const fullUrl = window.location.href;
     const searchParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(window.location.hash.substring(1));
 
-    // Check for error states (like expired tokens)
-    const hasError = fullUrl.includes('error=') || hashParams.has('error');
+    const hasError = fullUrl.includes('error=') || hashParams.has('error') || searchParams.has('error');
+    const isRecovery = fullUrl.includes('type=recovery') || searchParams.has('code') || hashParams.has('access_token');
 
-    // Check for valid recovery indicators
-    const isRecoveryFlow = 
-      fullUrl.includes('type=recovery') || 
-      searchParams.has('code') || 
-      searchParams.has('token_hash') ||
-      hashParams.has('access_token');
-
+    // Display Routing Logic
     if (hasError) {
       document.getElementById('confirm-view').classList.add('hidden');
       document.getElementById('error-view').classList.remove('hidden');
-      
-      const errCode = hashParams.get('error_code') || searchParams.get('error_code');
-      if (errCode === 'otp_expired') {
-        document.getElementById('error-desc').innerText = 'This password reset link has expired or has already been used. Please request a fresh reset link from the app.';
-      }
-    } else if (isRecoveryFlow) {
+    } else if (isRecovery) {
       document.getElementById('confirm-view').classList.add('hidden');
       document.getElementById('reset-view').classList.remove('hidden');
 
+      // Process PKCE code exchange if query code exists
       if (searchParams.has('code')) {
-        supabaseClient.auth.exchangeCodeForSession(fullUrl).catch(err => console.error(err));
+        const code = searchParams.get('code');
+        supabaseClient.auth.exchangeCodeForSession(code).then(({ error }) => {
+          if (error) {
+            document.getElementById('reset-view').classList.add('hidden');
+            document.getElementById('error-view').classList.remove('hidden');
+            document.getElementById('error-desc').innerText = error.message;
+          }
+        });
       }
     }
 
-    // Password reset submission
+    // Password Submission Listener
     document.getElementById('reset-btn').addEventListener('click', async () => {
       const newPassword = document.getElementById('new-password').value;
       const statusMsg = document.getElementById('status-msg');
+      const resetBtn = document.getElementById('reset-btn');
 
       if (!newPassword || newPassword.length < 6) {
         statusMsg.style.color = '#ef4444';
-        statusMsg.innerText = 'Password must be at least 6 characters.';
+        statusMsg.innerText = 'Password must be at least 6 characters long.';
         return;
       }
 
+      resetBtn.disabled = true;
       statusMsg.style.color = '#9ca3af';
       statusMsg.innerText = 'Updating password...';
 
-      const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+      const { data, error } = await supabaseClient.auth.updateUser({ password: newPassword });
 
       if (error) {
+        resetBtn.disabled = false;
         statusMsg.style.color = '#ef4444';
         statusMsg.innerText = error.message;
       } else {
         statusMsg.style.color = '#10b981';
-        statusMsg.innerText = 'Password updated! Open OnSceneLaw and sign in.';
+        statusMsg.innerText = 'Password updated successfully! Open OnSceneLaw and sign in.';
       }
     });
   </script>
