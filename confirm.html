@@ -27,13 +27,32 @@
         const actionBtn = document.getElementById('action-btn');
 
         window.addEventListener('DOMContentLoaded', async () => {
+            // Check query params first, then hash fragments
             const urlParams = new URLSearchParams(window.location.search);
-            const tokenHash = urlParams.get('token_hash');
-            const type = urlParams.get('type');
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
 
-            if (!tokenHash || type !== 'signup') {
+            let tokenHash = urlParams.get('token_hash') || hashParams.get('token_hash');
+            let type = urlParams.get('type') || hashParams.get('type') || 'signup';
+
+            // If an access_token hash came through instead
+            const accessToken = hashParams.get('access_token');
+            const refreshToken = hashParams.get('refresh_token');
+
+            if (accessToken) {
+                const { error: sessionError } = await _supabase.auth.setSession({
+                    access_token: accessToken,
+                    refresh_token: refreshToken
+                });
+                
+                if (!sessionError) {
+                    successState();
+                    return;
+                }
+            }
+
+            if (!tokenHash) {
                 titleEl.textContent = 'Invalid Link';
-                messageEl.textContent = 'This confirmation link is invalid or has already been used.';
+                messageEl.textContent = 'No confirmation token found. Please check your link or request a new one.';
                 messageEl.className = 'text-sm text-amber-400 mb-6';
                 actionBtn.classList.remove('hidden');
                 return;
@@ -41,7 +60,7 @@
 
             const { error } = await _supabase.auth.verifyOtp({
                 token_hash: tokenHash,
-                type: 'signup'
+                type: type
             });
 
             if (error) {
@@ -51,13 +70,17 @@
                 actionBtn.textContent = 'Return to Home';
                 actionBtn.classList.remove('hidden');
             } else {
-                titleEl.textContent = 'Email Confirmed!';
-                messageEl.textContent = 'Your account has been successfully verified. You can now log in and access OnSceneLaw.';
-                messageEl.className = 'text-sm text-emerald-400 mb-6';
-                actionBtn.textContent = 'Log In Now';
-                actionBtn.classList.remove('hidden');
+                successState();
             }
         });
+
+        function successState() {
+            titleEl.textContent = 'Email Confirmed!';
+            messageEl.textContent = 'Your account has been successfully verified. You can now log in and access OnSceneLaw.';
+            messageEl.className = 'text-sm text-emerald-400 mb-6';
+            actionBtn.textContent = 'Log In Now';
+            actionBtn.classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
