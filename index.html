@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -85,8 +86,9 @@
                 <a href="#support" class="hover:text-brand-400 transition-colors">Support</a>
             </nav>
 
-            <!-- Actions -->
+            <!-- Actions / Auth Status -->
             <div class="flex items-center gap-4">
+                <span id="auth-status" class="text-xs text-slate-400 font-medium hidden sm:inline">Checking session...</span>
                 <!-- Mobile Menu Button -->
                 <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2 rounded-lg" aria-label="Toggle Menu">
                     <i class="fa-solid fa-bars text-xl"></i>
@@ -102,6 +104,11 @@
             <a href="#support" class="block py-2 text-slate-300 hover:text-brand-400 text-base font-medium">Support</a>
         </div>
     </header>
+
+    <!-- Email Verification Success Banner (Hidden by default) -->
+    <div id="verification-banner" class="hidden bg-emerald-950 border-b border-emerald-800 text-emerald-300 px-4 py-3 text-center text-sm font-medium">
+        🎉 Email successfully confirmed! Welcome to OnSceneLaw. Your account is fully active.
+    </div>
 
     <!-- Hero Section -->
     <section class="relative pt-12 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
@@ -475,70 +482,77 @@
     <section id="support" class="py-16 bg-slate-950 border-t border-slate-800/80">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h2 class="text-2xl font-bold text-white mb-3">Account & Application Support</h2>
-            <p class="text-slate-400 text-sm max-w-xl mx-auto mb-8">
-                Need help with your account subscription, app access, or password reset? Our support team is available directly.
-            </p>
-
-            <div class="inline-flex flex-wrap justify-center gap-4">
-                <a href="mailto:support@onscenelaw.com" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 px-5 py-3 rounded-xl font-medium text-sm transition-colors">
-                    <i class="fa-solid fa-envelope text-brand-400"></i>
-                    Email Support (support@onscenelaw.com)
+            <p class="text-slate-400 text-sm">Need help or want to reset your password? Visit the dedicated recovery page below.</p>
+            <div class="mt-6">
+                <a href="reset-password.html" class="inline-block bg-slate-900 border border-slate-800 hover:border-brand-500/50 text-slate-200 font-medium px-6 py-3 rounded-xl transition-colors text-sm">
+                    Reset Password
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-12 text-slate-400 text-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                
-                <!-- Brand Info -->
-                <div class="flex items-center gap-3">
-                    <div class="relative w-8 h-8 rounded-full overflow-hidden border border-brand-500/40 bg-slate-900 flex items-center justify-center p-0.5">
-                        <img src="OSL Icon 512x512.jpg" alt="OnSceneLaw Logo" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='OnSceneLaw Icon.png';" />
-                    </div>
-                    <span class="font-bold text-white">OnSceneLaw</span>
-                    <span class="text-xs text-slate-400">© 2026 Solar Peak Software</span>
-                </div>
-
-                <!-- Footer Links -->
-                <div class="flex flex-wrap justify-center gap-6 text-xs text-slate-400">
-                    <a href="#features" class="hover:text-white transition-colors">Features</a>
-                    <a href="#app-preview" class="hover:text-white transition-colors">Field Cards</a>
-                    <a href="mailto:support@onscenelaw.com" class="hover:text-white transition-colors">Contact Support</a>
-                </div>
-            </div>
-        </div>
+    <footer class="py-8 bg-slate-950 border-t border-slate-800/80 text-center text-xs text-slate-500">
+        <p>&copy; 2026 OnSceneLaw. All rights reserved. Built for frontline operational reference.</p>
     </footer>
 
-    <!-- Tab Switcher Script -->
+    <!-- Tab Switching Script -->
     <script>
         function switchTab(tabId) {
-            // Hide all contents
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            
-            // Deactivate all buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
+                btn.classList.remove('active', 'bg-brand-600', 'text-white', 'shadow-md');
                 btn.classList.add('bg-slate-800', 'text-slate-300');
             });
 
-            // Show selected content
             document.getElementById('content-' + tabId).classList.remove('hidden');
-
-            // Activate selected button
             const activeBtn = document.getElementById('tab-' + tabId);
             activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
-            activeBtn.classList.add('bg-brand-600', 'text-white', 'shadow-md');
+            activeBtn.classList.add('active', 'bg-brand-600', 'text-white', 'shadow-md');
         }
 
         // Mobile menu toggle
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+    <!-- Supabase Initialization & Email Verification Listener -->
+    <script>
+        const supabaseUrl = 'https://bhrsaugshxcjjkrzotii.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJocnNhdWdzaHhjamprcnpvdGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MjQzOTAsImV4cCI6MjEwODUwMDM5MH0.bXPyyxx_s_PEKjzHVCk4I-Kx4pB-vPMOB-buNf0jlTM';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        const authStatus = document.getElementById('auth-status');
+        const verificationBanner = document.getElementById('verification-banner');
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 1. Check if user was just redirected back from successful email confirmation
+            if (urlParams.get('verified') === 'true') {
+                const { data: { session } } = await _supabase.auth.getSession();
+                if (session) {
+                    // Clean the URL bar to remove '?verified=true'
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    // Show success banner
+                    if (verificationBanner) {
+                        verificationBanner.classList.remove('hidden');
+                    }
+                }
+            }
+
+            // 2. Check general active session on load
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (session) {
+                if (authStatus) authStatus.textContent = session.user.email;
+            } else {
+                if (authStatus) authStatus.textContent = '';
+            }
         });
     </script>
 </body>
