@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnSceneLaw | Critical Field Reference. Always Available.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                            accent: '#38bdf8',
+                        },
+                        darkbg: '#0b1120',
+                        darkcard: '#1e293b',
+                        darkborder: '#334155',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1120;
+            color: #f8fafc;
+        }
+        .glow-effect {
+            box-shadow: 0 0 40px -10px rgba(6, 182, 212, 0.4);
+        }
+        .glow-border {
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .phone-mockup {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.2);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-10 h-10 rounded-full overflow-hidden border border-brand-500/40 shadow-lg group-hover:scale-105 transition-transform duration-300 bg-slate-900 flex items-center justify-center p-0.5">
+                    <img src="OSL Icon 512x512.jpg" alt="OnSceneLaw Logo" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='OnSceneLaw Icon.png';" />
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-extrabold tracking-tight text-white flex items-center gap-1">
+                        OnScene<span class="text-brand-400">Law</span>
+                    </span>
+                    <span class="text-[10px] tracking-wider uppercase text-slate-400 font-semibold">Field Reference</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#features" class="hover:text-brand-400 transition-colors">Core Features</a>
+                <a href="#app-preview" class="hover:text-brand-400 transition-colors">Interactive Field Card Demo</a>
+                <a href="#caselaw" class="hover:text-brand-400 transition-colors">Case Law & Statutes</a>
+                <a href="#support" class="hover:text-brand-400 transition-colors">Support</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2 rounded-lg" aria-label="Toggle Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
+            <a href="#features" class="block py-2 text-slate-300 hover:text-brand-400 text-base font-medium">Core Features</a>
+            <a href="#app-preview" class="block py-2 text-slate-300 hover:text-brand-400 text-base font-medium">Interactive Demo</a>
+            <a href="#caselaw" class="block py-2 text-slate-300 hover:text-brand-400 text-base font-medium">Case Law & Statutes</a>
+            <a href="#support" class="block py-2 text-slate-300 hover:text-brand-400 text-base font-medium">Support</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
+        <!-- Background Gradient Orbs -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[350px] h-[350px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Column: Copy & Actions -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-950/80 border border-brand-500/30 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-6">
+                        <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                        Built for Frontline Officers in Ontario <span class="text-slate-400 font-normal border-l border-slate-700 pl-2 ml-1">(Other provinces in development)</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]">
+                        CRITICAL FIELD REFERENCE. <br class="hidden sm:block"/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-accent to-blue-400">ALWAYS AVAILABLE.</span>
+                    </h1>
+
+                    <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Instant offline access to legal thresholds, occurrence step-by-step checklists, SCC & ONCA case law summaries, and Charter caution wording right at your fingertips on scene.
+                    </p>
+
+                    <!-- App Badges / CTAs -->
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4" id="download">
+                        <div class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-slate-900/90 text-slate-300 border border-slate-800 px-6 py-3.5 rounded-2xl shadow-xl">
+                            <i class="fa-brands fa-android text-2xl text-brand-400"></i>
+                            <div class="text-left">
+                                <div class="text-[10px] uppercase text-brand-400 font-bold tracking-wider">Android App</div>
+                                <div class="text-sm font-bold text-white leading-none mt-0.5">Coming Soon</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlight Badges -->
+                    <div class="mt-10 pt-8 border-t border-slate-800/80 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-white">100%</div>
+                            <div class="text-xs sm:text-sm text-slate-400 font-medium">Offline Ready</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-brand-400">SCC & ONCA</div>
+                            <div class="text-xs sm:text-sm text-slate-400 font-medium">Binding Case Cards</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-white">Fast</div>
+                            <div class="text-xs sm:text-sm text-slate-400 font-medium">Search & Demands</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Simulated Mobile Frame -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-[340px] aspect-[9/18.5] bg-slate-950 rounded-[48px] p-3.5 border-4 border-slate-700/60 phone-mockup">
+                        <!-- Speaker / Notch -->
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-36 h-5 bg-slate-950 rounded-b-2xl z-30 flex items-center justify-center">
+                            <div class="w-12 h-1 bg-slate-800 rounded-full"></div>
+                        </div>
+
+                        <!-- Inner Phone Screen -->
+                        <div class="w-full h-full bg-[#0d1527] rounded-[36px] overflow-hidden flex flex-col text-slate-100 font-sans relative border border-slate-800">
+                            
+                            <!-- Mobile App Header -->
+                            <div class="bg-[#0b1120] px-4 pt-7 pb-3 border-b border-slate-800/80 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-brand-500/20 border border-brand-400/40 flex items-center justify-center">
+                                        <i class="fa-solid fa-compass text-brand-400 text-xs"></i>
+                                    </div>
+                                    <span class="text-sm font-bold text-white">OnSceneLaw</span>
+                                </div>
+                                <span class="text-[10px] px-2 py-0.5 rounded bg-brand-950 text-brand-400 font-semibold border border-brand-800/40">OFFLINE</span>
+                            </div>
+
+                            <!-- Mobile App Search Box -->
+                            <div class="p-3 bg-[#0d1527]">
+                                <div class="w-full bg-[#172339] rounded-xl px-3 py-2 text-xs text-slate-400 flex items-center gap-2 border border-slate-700/50">
+                                    <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+                                    <span>Search statutes, cases, demands...</span>
+                                </div>
+                            </div>
+
+                            <!-- Mobile App Scroll Content -->
+                            <div class="flex-1 overflow-y-auto px-3 pb-3 space-y-2.5 text-left text-xs">
+                                
+                                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider pt-1">Call Occurrence Guides</div>
+
+                                <!-- Card 1: IPV / Domestic -->
+                                <div class="p-3 rounded-xl bg-[#162238] border border-slate-700/60 shadow-sm hover:border-brand-500/40 transition-colors">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="font-bold text-white text-sm">IPV / Domestic</span>
+                                        <span class="px-1.5 py-0.5 rounded text-[10px] bg-brand-950 text-brand-300 font-medium border border-brand-800/30">Person</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 line-clamp-3 leading-relaxed">
+                                        Dual-complainant assessment, immediate safety, evidence of relationship & assault, victim-support notifications.
+                                    </p>
+                                </div>
+
+                                <!-- Card 2: Impaired Driving -->
+                                <div class="p-3 rounded-xl bg-[#162238] border border-slate-700/60 shadow-sm">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="font-bold text-white text-sm">Impaired Driving</span>
+                                        <span class="px-1.5 py-0.5 rounded text-[10px] bg-blue-950 text-blue-300 font-medium border border-blue-800/30">Traffic</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300 line-clamp-3 leading-relaxed">
+                                        Roadside screening, approved-instrument / DRE demands, right-to-counsel timing & HTA suspensions.
+                                    </p>
+                                </div>
+
+                                <!-- Card 3: Case Law Field Card -->
+                                <div class="p-3 rounded-xl bg-[#1b2a45] border border-brand-500/40 shadow-sm">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-brand-300 text-xs">R. v. Wills (1992 ONCA)</span>
+                                        <span class="px-1.5 py-0.5 rounded text-[9px] bg-amber-950 text-amber-300 font-bold border border-amber-800/40">ONCA</span>
+                                    </div>
+                                    <div class="text-[10px] font-semibold text-slate-200 uppercase tracking-wider mb-0.5">Consent Search Threshold</div>
+                                    <p class="text-[10px] text-slate-300 leading-normal">
+                                        6 mandatory elements for valid consent search. Silence or submission is NOT consent.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Mobile App Bottom Navigation Bar -->
+                            <div class="bg-[#090f1d] border-t border-slate-800 px-4 py-2 flex justify-around items-center text-slate-400">
+                                <div class="flex flex-col items-center gap-0.5 text-brand-400">
+                                    <i class="fa-solid fa-house text-sm"></i>
+                                    <span class="text-[9px] font-medium">Home</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-0.5">
+                                    <i class="fa-solid fa-clipboard-list text-sm"></i>
+                                    <span class="text-[9px] font-medium">Guides</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-0.5">
+                                    <i class="fa-solid fa-bookmark text-sm"></i>
+                                    <span class="text-[9px] font-medium">Saved</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-0.5">
+                                    <i class="fa-solid fa-ellipsis text-sm"></i>
+                                    <span class="text-[9px] font-medium">More</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Grid -->
+    <section id="features" class="py-20 bg-slate-950/60 border-y border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-extrabold text-brand-400 uppercase tracking-widest mb-3">Designed for the Street</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Everything You Need When Every Second Counts</p>
+                <p class="mt-4 text-slate-400 text-base">Clear, concise legal references formatted specifically for quick reading on mobile screens during active calls.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Step-by-Step Call Guides</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Occurrence checklists for IPV / Domestic, Impaired Driving, Public Safety & Crisis, and Property & Scene Management.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">SCC & ONCA Case Law</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Operational rules, legal thresholds, and scope limits for landmark decisions like <em>R. v. Wills</em>, <em>Oickle</em>, <em>Hart</em>, and <em>Singh</em>.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Police Authorities Lookup</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Quick reference cards for statutory powers of arrest, search thresholds, exigent entry, and use-of-force frameworks.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Cautions & Demands</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Charter cautions, secondary cautions, DRE demands, and approved instrument demands ready for immediate reading.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Criminal Code Reference</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Fast indexing for offenses, essential elements, maximum penalties, and common provincial statutes (HTA, LLA).
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 hover:border-brand-500/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-wifi-slash"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">100% Offline Reliability</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Zero dependency on cellular service. All guides, statutes, and field cards remain instantly accessible in dead zones.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Field Card Preview Section -->
+    <section id="app-preview" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-xs font-extrabold text-brand-400 uppercase tracking-widest mb-3">Live Field Card Preview</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Explore Real App References</p>
+                <p class="mt-4 text-slate-400 text-base">Click through the tabs below to preview the exact card layout used by frontline officers.</p>
+            </div>
+
+            <!-- Interactive Tab Controls -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button onclick="switchTab('wills')" id="tab-wills" class="tab-btn active bg-brand-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md">
+                    Case Law: R. v. Wills
+                </button>
+                <button onclick="switchTab('ipv')" id="tab-ipv" class="tab-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all">
+                    Call Guide: IPV / Domestic
+                </button>
+                <button onclick="switchTab('caution')" id="tab-caution" class="tab-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all">
+                    Quick Reference: Charter Caution
+                </button>
+            </div>
+
+            <!-- Tab Content Display Box -->
+            <div class="max-w-4xl mx-auto bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-2xl relative">
+                
+                <!-- Tab 1: R. v. Wills -->
+                <div id="content-wills" class="tab-content space-y-6">
+                    <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
+                        <div>
+                            <span class="px-2.5 py-1 rounded text-xs font-bold bg-amber-950 text-amber-300 border border-amber-800/50">ONCA</span>
+                            <h3 class="text-2xl font-black text-white mt-2">R. v. Wills</h3>
+                            <p class="text-sm text-slate-400">1992 CanLII 2785 (ON CA) • Binding in Ontario</p>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-brand-400 bg-brand-950/80 px-3 py-1.5 rounded-lg border border-brand-800/40">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> CanLII Reference Available
+                        </span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-sm font-bold text-brand-300 uppercase tracking-wider">Operational Rule</h4>
+                            <p class="text-sm text-slate-200 mt-1 leading-relaxed bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+                                An officer MAY search or take a sample on consent only after a real, informed choice: they know they can refuse, know what you will do, and know it can be used against them. An officer CANNOT treat silence, a nod, or submission to a uniform as consent.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-bold text-brand-300 uppercase tracking-wider">Legal Threshold & 6 Mandatory Elements</h4>
+                            <ul class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300">
+                                <li class="bg-slate-800/60 p-2.5 rounded-lg flex items-start gap-2">
+                                    <span class="text-brand-400 font-bold">1.</span> Express or implied consent given
+                                </li>
+                                <li class="bg-slate-800/60 p-2.5 rounded-lg flex items-start gap-2">
+                                    <span class="text-brand-400 font-bold">2.</span> Giver had authority to consent
+                                </li>
+                                <li class="bg-slate-800/60 p-2.5 rounded-lg flex items-start gap-2">
+                                    <span class="text-brand-400 font-bold">3.</span> Consent was voluntary
+                                </li>
+                                <li class="bg-slate-800/60 p-2.5 rounded-lg flex items-start gap-2">
+                                    <span class="text-brand-400 font-bold">4.</span> Knowledge of the conduct requested
+                                </li>
+                                <li class="bg-slate-800/60 p-2.5 rounded-lg flex items-start gap-2">
+                                    <span class="text-brand-400 font-bold">5.</span> Knowledge of the right to refuse
+                                </li>
+                                <li class="bg-slate-800/60 p-2.5 rounded-lg flex items-start gap-2">
+                                    <span class="text-brand-400 font-bold">6.</span> Knowledge of potential criminal jeopardy
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: IPV / Domestic Call Guide -->
+                <div id="content-ipv" class="tab-content hidden space-y-6">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                        <div>
+                            <span class="px-2.5 py-1 rounded text-xs font-bold bg-brand-950 text-brand-300 border border-brand-800/50">Occurrence Guide</span>
+                            <h3 class="text-2xl font-black text-white mt-2">IPV / Intimate Partner Violence</h3>
+                            <p class="text-sm text-slate-400">Step-by-step scene procedure and mandatory requirements</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 text-sm">
+                        <div class="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800 flex items-start gap-3">
+                            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-xs shrink-0">1</span>
+                            <div>
+                                <strong class="text-white">Immediate Scene Safety & Separation:</strong>
+                                <p class="text-slate-300 text-xs mt-0.5">Separate involved parties visually and audibly immediately upon entry.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800 flex items-start gap-3">
+                            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-xs shrink-0">2</span>
+                            <div>
+                                <strong class="text-white">Dual-Complainant Assessment:</strong>
+                                <p class="text-slate-300 text-xs mt-0.5">Determine primary aggressor vs. defensive actions. Avoid dual charges unless supported by distinct grounds.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800 flex items-start gap-3">
+                            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-xs shrink-0">3</span>
+                            <div>
+                                <strong class="text-white">Evidence & Victim Support:</strong>
+                                <p class="text-slate-300 text-xs mt-0.5">Photograph physical injuries, document property damage, and issue mandatory victim service referral cards.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Charter Caution -->
+                <div id="content-caution" class="tab-content hidden space-y-6">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                        <div>
+                            <span class="px-2.5 py-1 rounded text-xs font-bold bg-blue-950 text-blue-300 border border-blue-800/50">Charter Card</span>
+                            <h3 class="text-2xl font-black text-white mt-2">Right to Counsel & Caution</h3>
+                            <p class="text-sm text-slate-400">Verbatim card for arrest or detention</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 font-mono text-xs text-slate-200 leading-relaxed space-y-4">
+                        <p class="text-brand-300 font-sans font-bold uppercase text-[11px] tracking-wider">1. Caution on Arrest / Detention</p>
+                        <p class="border-l-2 border-brand-500 pl-3">
+                            "You are under arrest / detained for [offence]. It is my duty to inform you that you have the right to retain and instruct counsel without delay. You have the right to free advice from duty counsel..."
+                        </p>
+
+                        <p class="text-brand-300 font-sans font-bold uppercase text-[11px] tracking-wider pt-2">2. Secondary Caution</p>
+                        <p class="border-l-2 border-brand-500 pl-3">
+                            "You are not obliged to say anything, but anything you do say may be given in evidence."
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Support & Account Recovery Section -->
+    <section id="support" class="py-16 bg-slate-950 border-t border-slate-800/80">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold text-white mb-3">Account & Application Support</h2>
+            <p class="text-slate-400 text-sm max-w-xl mx-auto mb-8">
+                Need help with your account subscription, app access, or password reset? Our support team is available directly.
+            </p>
+
+            <div class="inline-flex flex-wrap justify-center gap-4">
+                <a href="mailto:support@onscenelaw.com" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 px-5 py-3 rounded-xl font-medium text-sm transition-colors">
+                    <i class="fa-solid fa-envelope text-brand-400"></i>
+                    Email Support (support@onscenelaw.com)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-12 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                <!-- Brand Info -->
+                <div class="flex items-center gap-3">
+                    <div class="relative w-8 h-8 rounded-full overflow-hidden border border-brand-500/40 bg-slate-900 flex items-center justify-center p-0.5">
+                        <img src="OSL Icon 512x512.jpg" alt="OnSceneLaw Logo" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='OnSceneLaw Icon.png';" />
+                    </div>
+                    <span class="font-bold text-white">OnSceneLaw</span>
+                    <span class="text-xs text-slate-400">© 2026 Solar Peak Software</span>
+                </div>
+
+                <!-- Footer Links -->
+                <div class="flex flex-wrap justify-center gap-6 text-xs text-slate-400">
+                    <a href="#features" class="hover:text-white transition-colors">Features</a>
+                    <a href="#app-preview" class="hover:text-white transition-colors">Field Cards</a>
+                    <a href="mailto:support@onscenelaw.com" class="hover:text-white transition-colors">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tab Switcher Script -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+
+            // Show selected content
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+
+            // Activate selected button
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+            activeBtn.classList.add('bg-brand-600', 'text-white', 'shadow-md');
+        }
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
